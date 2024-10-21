@@ -1,8 +1,69 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model TestPortal.Web.Models.ViewModel.PopulationVM
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-4">
+    <div class="row">
+        <!-- Dropdowns for filtering (Country, State/Cities, Population Type) -->
+        <div class="col-md-12">
+            <select class="form-control d-inline-block" style="width: 30%;">
+                <option>All Country(5627800)</option>
+            </select>
+            <select class="form-control d-inline-block" style="width: 30%;">
+                <option>All State/Cities</option>
+            </select>
+            <select class="form-control d-inline-block" style="width: 30%;">
+                <option>Population</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Population table -->
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <table class="table table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Population Type</th>
+                        <th>Number</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var population in Model.PopulationTypes)
+                    {
+                        <tr>
+                            <td>@population.PopulationType</td>
+                            <td>@population.Number</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Summary report for countries with highest population -->
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <h5><strong>Summary report</strong></h5>
+            <p>Three countries with the highest population</p>
+
+            <table class="table table-bordered">
+                <thead class="thead-light">
+                    <tr>
+                        <th>SN</th>
+                        <th>Country Name</th>
+                        <th>Population</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var country in Model.TopCountries)
+                    {
+                        <tr>
+                            <td>@country.SN</td>
+                            <td>@country.CountryName</td>
+                            <td>@String.Format("{0:n0}", country.Population)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
