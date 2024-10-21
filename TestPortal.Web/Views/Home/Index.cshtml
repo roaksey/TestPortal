@@ -4,10 +4,10 @@
     <div class="row">
         <!-- Dropdowns for filtering (Country, State/Cities, Population Type) -->
         <div class="col-md-12">
-            <select class="form-control d-inline-block" style="width: 30%;">
-                <option>All Country(5627800)</option>
+            <select class="form-control d-inline-block" style="width: 30%;" asp-for="SelectedCountryId" asp-items="Model.Countries">
+                <option value="">All Country(5627800)</option>
             </select>
-            <select class="form-control d-inline-block" style="width: 30%;">
+            <select class="form-control d-inline-block" style="width: 30%;" asp-for="CityId" asp-items="Model.Cities">
                 <option>All State/Cities</option>
             </select>
             <select class="form-control d-inline-block" style="width: 30%;">

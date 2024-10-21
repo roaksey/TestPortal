@@ -1,3 +1,6 @@
+using TestPortal.Web.Service.Interface;
+using TestPortal.Web.Service;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -10,6 +13,8 @@ builder.Services.AddAuthentication("MyCookieAuth")
         options.LoginPath = "/Account/Login"; // Path to login page
         options.AccessDeniedPath = "/Account/AccessDenied"; // Path to access denied page
     });
+
+builder.Services.AddTransient<ICountryService, CountryService>();
 
 var app = builder.Build();
 

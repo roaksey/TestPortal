@@ -1,20 +1,25 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Diagnostics;
 using TestPortal.Web.Models;
 using TestPortal.Web.Models.ViewModel;
+using TestPortal.Web.Service.Interface;
 
 namespace TestPortal.Web.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+   
+        public ICountryService _countryService { get; }
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ICountryService countryService)
         {
-            _logger = logger;
+            _countryService = countryService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var model = new PopulationVM
             {
@@ -31,6 +36,19 @@ namespace TestPortal.Web.Controllers
                 new CountryPopulation { SN = 3, CountryName = "USA", Population = 6663441 }
             }
             };
+            var countries = await _countryService.GetAllCountriesAsync();
+            var countrySelectList = countries.Select(c => new SelectListItem
+            {
+                Value = c.CountryId.ToString(),
+                Text = c.CountryName.ToString()
+            }).ToList();
+
+            model.Countries = countrySelectList;
+            var cities = await _countryService.GetAllCitiesAsync();
+            model.Cities = cities.Select(c => new SelectListItem {
+                Value = c.Id.ToString(),
+                Text = c.Name.ToString() 
+            });
 
             return View(model);
         }
